@@ -1,18 +1,22 @@
 require('dotenv').config();
 const express = require('express');
+const session = require('express-session');
 const routes = require('./controllers');
-const squelize = require('./config/connections');
 const path = require('path');
-const exphbs = require('express-handlebars');
+const helpers = require('./utils/helpers');
 const sequelize = require('./config/connections');
-const hbs = exphbs.create({});
+const exphbs = require('express-handlebars');
+const hbs = exphbs.create({ helpers });
+
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
 
 const sess = {
-    secret: 'bigbluedog',
+    secret: 'tech blog secret',
     cookie: {
         // Session will automatically expire in 10 minutes
         expires: 10 * 60 * 1000
